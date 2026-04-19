@@ -1,0 +1,21 @@
+{
+    "name": "clinical-sanctuary-ui",
+    "version": "1.0.0",
+    "description": "Clinical Sanctuary - AI-powered healthcare test result prediction",
+    "main": "public/index.html",
+    "scripts": {
+        "dev": "vercel dev",
+        "deploy": "vercel --prod"
+    },
+    "keywords": [
+        "healthcare",
+        "ml",
+        "prediction",
+        "fastapi"
+    ],
+    "author": "",
+    "license": "MIT",
+    "devDependencies": {
+        "vercel": "^33.0.0"
+    }
+}

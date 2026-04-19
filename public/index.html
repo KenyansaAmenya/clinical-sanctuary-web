@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Clinical Sanctuary - AI-powered healthcare test result prediction" />
+    <meta name="theme-color" content="#004ac6" />
+
+    <title>Clinical Sanctuary | Test Result Predictor</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Inter:wght@300..700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-dim": "#cbdbf5",
+                        "secondary-container": "#acbfff",
+                        "surface-bright": "#f8f9ff",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "on-surface": "#0b1c30",
+                        "surface": "#f8f9ff",
+                        "on-secondary-fixed": "#00174b",
+                        "on-background": "#0b1c30",
+                        "on-primary-fixed": "#00174b",
+                        "on-tertiary-container": "#ffede6",
+                        "primary-fixed": "#dbe1ff",
+                        "tertiary-fixed": "#ffdbcd",
+                        "inverse-surface": "#213145",
+                        "on-tertiary": "#ffffff",
+                        "surface-variant": "#d3e4fe",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "tertiary": "#943700",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#eeefff",
+                        "error": "#ba1a1a",
+                        "primary-container": "#2563eb",
+                        "on-secondary-container": "#394c84",
+                        "secondary": "#495c95",
+                        "primary": "#004ac6",
+                        "tertiary-container": "#bc4800",
+                        "secondary-fixed": "#dbe1ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "error-container": "#ffdad6",
+                        "surface-tint": "#0053db",
+                        "on-surface-variant": "#434655",
+                        "on-secondary-fixed-variant": "#31447b",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "on-tertiary-fixed": "#360f00",
+                        "outline": "#737686",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "surface-container": "#e5eeff",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "inverse-primary": "#b4c5ff",
+                        "on-secondary": "#ffffff",
+                        "background": "#f8f9ff",
+                        "outline-variant": "#c3c6d7",
+                        "surface-container-high": "#dce9ff",
+                        "surface-container-low": "#eff4ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-error": "#ffffff"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    fontFamily: {
+                        headline: ["Manrope", "sans-serif"],
+                        body: ["Inter", "sans-serif"],
+                        label: ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+    </style>
+</head>
+
+<body class="bg-surface font-body text-on-background">
+    <!-- TopNavBar -->
+    <header class="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl shadow-sm docked full-width top-0 sticky z-50">
+        <div class="flex justify-between items-center max-w-7xl mx-auto px-6 h-20">
+            <div class="text-2xl font-bold tracking-tighter text-blue-800 dark:text-blue-200 font-headline">
+                Clinical Sanctuary
+            </div>
+            <nav class="hidden md:flex items-center gap-8">
+                <a class="font-manrope tracking-tight text-sm font-semibold text-blue-700 dark:text-blue-400 border-b-2 border-blue-600 pb-1"
+                    href="#">Predictor</a>
+                <a class="font-manrope tracking-tight text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-blue-600 transition-colors"
+                    href="#">Patient Records</a>
+                <a class="font-manrope tracking-tight text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-blue-600 transition-colors"
+                    href="#">Analytics</a>
+                <a class="font-manrope tracking-tight text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-blue-600 transition-colors"
+                    href="#">Settings</a>
+            </nav>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2 mr-2">
+                    <button
+                        class="p-2 rounded-full hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all text-slate-500"
+                        aria-label="Notifications">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </button>
+                    <button
+                        class="p-2 rounded-full hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all text-slate-500"
+                        aria-label="Account">
+                        <span class="material-symbols-outlined">account_circle</span>
+                    </button>
+                </div>
+                <button
+                    class="bg-gradient-to-br from-primary to-primary-container text-white px-6 py-2.5 rounded-full font-headline text-sm font-bold scale-95 active:opacity-80 transition-transform">
+                    New Prediction
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 pt-16 pb-24">
+        <!-- Hero / Intro Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-20 items-center">
+            <div class="lg:col-span-7">
+                <h1
+                    class="font-headline text-6xl font-extrabold text-on-background tracking-tighter leading-[1.1] mb-6">
+                    Precision Analytics for <br />
+                    <span class="text-primary">Clinical Outcomes.</span>
+                </h1>
+                <p class="text-on-surface-variant text-lg max-w-xl leading-relaxed mb-8">
+                    Our AI-driven predictor leverages historical patient data to provide high-probability test result
+                    forecasts, streamlining clinical decision-making with mathematical certainty.
+                </p>
+                <div class="flex items-center gap-4">
+                    <div class="flex -space-x-3">
+                        <div class="w-10 h-10 rounded-full border-2 border-white overflow-hidden bg-slate-200">
+                            <img alt="Doctor 1"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAXBlTJODVS7_eb4wjL4imGoCxzKHN4JsLj5uSqmVt4xg7EfpPnmbuhB-w2LB-d9nFpAPB3gWkFHWY0Fm3jwyLXMNdgKe7njOfoPp7AHvI42ABmGIHUWIF4-oIaKAghCVajSSu3jv4FfsRrDymU6rQeypqKBn8iVUji5ZrlTyOAguitw_GA_tHcbPjAHqZPyj-r-3NHKsLWVgZs9Qn7qqy5CkD1Ub85TZNg12FVlHoExu83LXRjGDRxSTyKtiDM3RB_53qMswnfMh8"
+                                class="w-full h-full object-cover" />
+                        </div>
+                        <div class="w-10 h-10 rounded-full border-2 border-white overflow-hidden bg-slate-200">
+                            <img alt="Doctor 2"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCB5n-9OIHi4gzmG8Rud4Br_1r5zYByChDtMi6w0VOWf664CcEocxyskb2EXh-71T4btEpRVtRYMpHRrEnGSWuyFvCZPMY73ZCztIqF_ROiciUxtThB5B3tN4Cx1QW0nl8JOXnG3ivjCFrC7noERoGI8gywGUpJOAtE0dmLUUl0ovx02MSu275OX_YbLCN2b1F7EL8EMCdPYJdLYwDW1rVrGj2F9sNuqHmK6Nia1_qw7Ch_VQnAa-UBxIrNyr43NIeq-karq7Cbr0Y6"
+                                class="w-full h-full object-cover" />
+                        </div>
+                        <div class="w-10 h-10 rounded-full border-2 border-white overflow-hidden bg-slate-200">
+                            <img alt="Doctor 3"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuANZVG1rMwNPBznN7SVSe5k4hC2D0voXSP5lJAJp2ZirUa4s_TSfWcg6FS2apGXtlp7vcXsIj4S83RjY1MU939q07IRNfh6sFi4B0y2uaCSf7OtIzgTFNj1Dszrph-DGeMqahIRHt68wTh6nJroL5XU8nBzJbNtR8bIG_bYkZG0nDQFUZwdcLshMuh7yUDNWOyvlg9fUgUoqec8f7RMEXjUGS6OcSZwRow6QtiLyvj9zNNeHQ3khaZ8gr6P63xuRy4ZFO9U6IqXXS3A"
+                                class="w-full h-full object-cover" />
+                        </div>
+                    </div>
+                    <span class="text-sm font-semibold text-on-surface-variant">Trusted by 1,200+ clinicians
+                        worldwide</span>
+                </div>
+            </div>
+            <div class="lg:col-span-5 relative">
+                <div class="w-full aspect-square rounded-[3rem] overflow-hidden shadow-2xl relative z-10">
+                    <img alt="Medical Lab" class="w-full h-full object-cover"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoqKEFz5Kflkds1bexv0DMDGQEQJ2k_oD7BwfnFbSutuniKVdUQcsKHyse-_ikHtX4obmYwXF7QG8fkXKbK1ROX43Ef_pAaHpTjdqVXaS5tlNJ3BGlhZ03jccU-YwvFbnlZmrH3y1R3e5FxBny238plIzntVJKUCbKFu45svoMs8VfXAKz19kPjS_JDJYb4isOSvua1NK5AKPYQAs6lSmfRyXBymbubgw0Q9EXgYK-9Zi9ps8e6DocmGTCdmmOMoyBirBfUpGwBiW0" />
+                    <div class="absolute inset-0 bg-primary/10 mix-blend-multiply"></div>
+                </div>
+                <div
+                    class="absolute -bottom-6 -right-6 w-48 h-48 bg-secondary-container rounded-full blur-3xl opacity-30 z-0">
+                </div>
+            </div>
+        </div>
+
+        <!-- Predictor Form Section -->
+        <section class="relative bg-surface-container-low rounded-[2.5rem] p-8 md:p-16 overflow-hidden">
+            <div class="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
+                <span class="material-symbols-outlined text-[200px]"
+                    style="font-variation-settings: 'FILL' 1;">medical_services</span>
+            </div>
+
+            <div class="relative z-10">
+                <div class="max-w-2xl mb-12">
+                    <span
+                        class="text-primary font-headline font-bold uppercase tracking-widest text-xs mb-3 block">Prediction
+                        Engine</span>
+                    <h2 class="text-4xl font-headline font-bold text-on-background mb-4">Patient Details</h2>
+                    <p class="text-on-surface-variant">Input complete clinical parameters to generate a diagnostic
+                        forecast. Ensure HIPAA-compliant data entry practices.</p>
+                </div>
+
+                <!-- FORM START -->
+                <form id="prediction-form" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10">
+
+                    <!-- Age -->
+                    <div class="flex flex-col gap-2">
+                        <label class="text-sm font-semibold text-on-surface ml-1">Age</label>
+                        <input name="age" type="number" min="0" max="120" required
+                            class="bg-surface-container-lowest border-0 ring-1 ring-outline-variant/30 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none"
+                            placeholder="e.g. 45" />
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="flex flex-col gap-2">
+                        <label class="text-sm font-semibold text-on-surface ml-1">Gender</label>
+                        <select name="gender" required
+                            class="bg-surface-container-lowest border-0 ring-1 ring-outline-variant/30 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none">
+                            <option disabled selected value="">Select gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+
+                    <!-- Blood Type -->
+                    <div class="flex flex-col gap-2">
+                        <label class="text-sm font-semibold text-on-surface ml-1">Blood Type</label>
+                        <select name="blood-type" required
+                            class="bg-surface-container-lowest border-0 ring-1 ring-outline-variant/30 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none">
+                            <option disabled selected value="">Select blood type</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+
+                    <!-- Admission Type -->
+                    <div class="flex flex-col gap-2">
+                        <label class="text-sm font-semibold text-on-surface ml-1">Admission Type</label>
+                        <select name="admission-type" required
+                            class="bg-surface-container-lowest border-0 ring-1 ring-outline-variant/30 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none">
+                            <option disabled selected value="">Select type</option>
+                            <option value="Emergency">Emergency</option>
+                            <option value="Urgent">Urgent</option>
+                            <option value="Elective">Elective</option>
+                        </select>
+                    </div>
+
+                    <!-- Billing Amount -->
+                    <div class="flex flex-col gap-2">
+                        <label class="text-sm font-semibold text-on-surface ml-1">Billing Amount</label>
+                        <div class="relative">
+                            <span
+                                class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-semibold">$</span>
+                            <input name="billing-amount" type="text" required
+                                class="w-full bg-surface-container-lowest border-0 ring-1 ring-outline-variant/30 rounded-xl pl-8 pr-4 py-3 focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none"
+                                placeholder="0.00" />
+                        </div>
+                    </div>
+
+                    <!-- Insurance Provider -->
+                    <div class="flex flex-col gap-2">
+                        <label class="text-sm font-semibold text-on-surface ml-1">Insurance Provider</label>
+                        <input name="insurance-provider" type="text" required
+                            class="bg-surface-container-lowest border-0 ring-1 ring-outline-variant/30 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none"
+                            placeholder="e.g. BlueCross" />
+                    </div>
+
+                    <!-- Medical Condition -->
+                    <div class="flex flex-col gap-2">
+                        <label class="text-sm font-semibold text-on-surface ml-1">Medical Condition</label>
+                        <input name="medical-condition" type="text" required
+                            class="bg-surface-container-lowest border-0 ring-1 ring-outline-variant/30 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none"
+                            placeholder="e.g. Hypertension" />
+                    </div>
+
+                    <!-- Medication -->
+                    <div class="flex flex-col gap-2">
+                        <label class="text-sm font-semibold text-on-surface ml-1">Medication</label>
+                        <input name="medication" type="text" required
+                            class="bg-surface-container-lowest border-0 ring-1 ring-outline-variant/30 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none"
+                            placeholder="e.g. Lisinopril" />
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div
+                        class="lg:col-span-4 flex flex-col sm:flex-row items-center justify-end gap-6 pt-10 mt-6 border-t border-outline-variant/20">
+                        <button type="reset"
+                            class="text-primary font-headline font-bold text-sm hover:underline decoration-2 underline-offset-4 transition-all">
+                            Clear Form
+                        </button>
+                        <button id="predict-btn" type="button"
+                            class="group flex items-center gap-3 bg-gradient-to-br from-primary to-primary-container text-white px-10 py-4 rounded-full font-headline text-lg font-bold shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all">
+                            <span>Predict Test Result</span>
+                            <span
+                                class="material-symbols-outlined group-hover:translate-x-1 transition-transform">bolt</span>
+                        </button>
+                    </div>
+                </form>
+                <!-- FORM END -->
+
+                <!-- Result Container (Hidden Initially) -->
+                <div id="result-container" class="hidden"></div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <div class="mt-24 grid grid-cols-1 md:grid-cols-12 gap-6">
+            <div
+                class="md:col-span-8 bg-surface-container-highest/30 rounded-[2rem] p-10 flex flex-col justify-between min-h-[320px] relative overflow-hidden">
+                <div class="max-w-md relative z-10">
+                    <h3 class="text-2xl font-headline font-bold mb-4">Real-time Backend Synchronicity</h3>
+                    <p class="text-on-surface-variant leading-relaxed">
+                        Our inference engine is powered by high-performance FastAPI microservices, ensuring sub-100ms
+                        response times for complex clinical modeling.
+                    </p>
+                </div>
+                <div class="flex gap-10 mt-8 relative z-10">
+                    <div>
+                        <div class="text-4xl font-headline font-black text-primary" data-metric="accuracy">--%</div>
+                        <div class="text-xs uppercase tracking-widest font-bold text-on-surface-variant opacity-60">
+                            Model Accuracy</div>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-headline font-black text-primary" data-metric="f1">--%</div>
+                        <div class="text-xs uppercase tracking-widest font-bold text-on-surface-variant opacity-60">F1
+                            Score</div>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-headline font-black text-primary">12k+</div>
+                        <div class="text-xs uppercase tracking-widest font-bold text-on-surface-variant opacity-60">
+                            Predictions/hr</div>
+                    </div>
+                </div>
+                <div class="absolute right-0 bottom-0 top-0 w-1/3 bg-gradient-to-l from-primary/10 to-transparent">
+                </div>
+            </div>
+
+            <div
+                class="md:col-span-4 bg-primary text-on-primary rounded-[2rem] p-10 flex flex-col items-center justify-center text-center gap-4">
+                <span class="material-symbols-outlined text-6xl"
+                    style="font-variation-settings: 'FILL' 1;">security</span>
+                <h3 class="text-xl font-headline font-bold">HIPAA Secure</h3>
+                <p class="text-sm opacity-80 leading-relaxed">All data is encrypted end-to-end using AES-256 standards
+                    before entering the processing pipeline.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-50 dark:bg-slate-950 w-full py-12 mt-20 border-t border-slate-100 dark:border-slate-900">
+        <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex flex-col gap-2">
+                <div class="font-manrope font-black text-blue-900 dark:text-blue-100 text-lg uppercase tracking-tight">
+                    Clinical Sanctuary AI
+                </div>
+                <div class="font-inter text-xs text-slate-500 uppercase tracking-widest">
+                    © 2024 Clinical Sanctuary AI. Precision diagnostics for modern medicine.
+                </div>
+                <div class="mt-2 text-[10px] text-slate-400 font-medium">
+                    Integrated via secure FastAPI REST Architecture.
+                </div>
+            </div>
+            <div class="flex gap-8">
+                <a class="font-inter text-xs text-slate-400 hover:text-blue-500 hover:underline decoration-2 underline-offset-4 transition-all uppercase tracking-widest"
+                    href="#">Privacy Policy</a>
+                <a class="font-inter text-xs text-slate-400 hover:text-blue-500 hover:underline decoration-2 underline-offset-4 transition-all uppercase tracking-widest"
+                    href="#">Terms of Service</a>
+                <a class="font-inter text-xs text-slate-400 hover:text-blue-500 hover:underline decoration-2 underline-offset-4 transition-all uppercase tracking-widest"
+                    href="#">HIPAA Compliance</a>
+                <a class="font-inter text-xs text-slate-400 hover:text-blue-500 hover:underline decoration-2 underline-offset-4 transition-all uppercase tracking-widest"
+                    href="#">Documentation</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Environment Configuration
+        const ENV = {
+            API_BASE_URL: 'https://healthcare-ml-pipeline.onrender.com',
+            ENDPOINTS: {
+                PREDICT: '/api/v1/predict', 
+                METRICS: '/api/v1/metrics', 
+                TRAINING_STATUS: '/api/v1/scheduler/status',
+                HEALTH: '/api/v1/health'
+            }
+        };
+
+        // Main Application
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log(' Clinical Sanctuary UI initialized');
+
+            // Get DOM elements
+            const form = document.getElementById('prediction-form');
+            const submitBtn = document.getElementById('predict-btn');
+            const resultContainer = document.getElementById('result-container');
+            let isLoading = false;
+
+            if (!submitBtn) {
+                console.error('ERROR: Predict button not found!');
+                return;
+            }
+            if (!form) {
+                console.error('ERROR: Form not found!');
+                return;
+            }
+
+            console.log(' Button and form found, binding events...');
+
+            // Bind click event
+            submitBtn.addEventListener('click', async function (e) {
+                e.preventDefault();
+                console.log(' Predict button clicked!');
+
+                if (isLoading) {
+                    console.log('Already loading, ignoring click');
+                    return;
+                }
+
+                // Validate form
+                if (!validateForm()) {
+                    console.log(' Form validation failed');
+                    return;
+                }
+
+                // Collect data
+                const formData = collectFormData();
+                console.log(' Form data collected:', formData);
+
+                // Set loading state
+                setLoading(true);
+                hideResult();
+
+                try {
+                    console.log(' Sending prediction request...');
+                    const result = await submitPrediction(formData);
+                    console.log(' Prediction successful:', result);
+                    displayResult(result);
+                } catch (error) {
+                    console.error(' Prediction error:', error);
+                    displayError(error.message);
+                } finally {
+                    setLoading(false);
+                }
+            });
+
+            // Clear button
+            const clearBtn = form.querySelector('button[type="reset"]');
+            if (clearBtn) {
+                clearBtn.addEventListener('click', function () {
+                    hideResult();
+                    clearErrors();
+                });
+            }
+
+            // Billing input validation
+            const billingInput = form.querySelector('input[name="billing-amount"]');
+            if (billingInput) {
+                billingInput.addEventListener('input', function (e) {
+                    e.target.value = e.target.value.replace(/[^0-9.]/g, '');
+                });
+            }
+
+            // Helper functions
+            function collectFormData() {
+                const getValue = function (name) {
+                    const el = form.querySelector('[name="' + name + '"]');
+                    return el ? el.value.trim() : '';
+                };
+
+                return {
+                    age: getValue('age'),
+                    gender: getValue('gender'),
+                    blood_type: getValue('blood-type'),
+                    admission_type: getValue('admission-type'),
+                    billing_amount: getValue('billing-amount') || '0',
+                    insurance_provider: getValue('insurance-provider'),
+                    medical_condition: getValue('medical-condition'),
+                    medication: getValue('medication')
+                };
+            }
+
+            function validateForm() {
+                clearErrors();
+
+                const required = [
+                    { name: 'age', label: 'Age' },
+                    { name: 'gender', label: 'Gender' },
+                    { name: 'blood-type', label: 'Blood Type' },
+                    { name: 'admission-type', label: 'Admission Type' },
+                    { name: 'insurance-provider', label: 'Insurance Provider' },
+                    { name: 'medical-condition', label: 'Medical Condition' },
+                    { name: 'medication', label: 'Medication' }
+                ];
+
+                let isValid = true;
+
+                for (let i = 0; i < required.length; i++) {
+                    const field = required[i];
+                    const el = form.querySelector('[name="' + field.name + '"]');
+                    const value = el ? el.value.trim() : '';
+
+                    if (!value) {
+                        showFieldError(field.name, field.label + ' is required');
+                        isValid = false;
+                    }
+                }
+
+                const ageEl = form.querySelector('[name="age"]');
+                if (ageEl) {
+                    const age = parseInt(ageEl.value);
+                    if (isNaN(age) || age < 0 || age > 120) {
+                        showFieldError('age', 'Age must be between 0 and 120');
+                        isValid = false;
+                    }
+                }
+
+                return isValid;
+            }
+
+            async function submitPrediction(formData) {
+                const payload = {
+                    Age: parseInt(formData.age),
+                    Gender: formData.gender,
+                    "Blood Type": formData.blood_type,
+                    "Medical Condition": formData.medical_condition,
+                    "Billing Amount": parseFloat(formData.billing_amount),
+                    "Admission Type": formData.admission_type,
+                    "Insurance Provider": formData.insurance_provider,
+                    Medication: formData.medication
+                };
+
+                console.log(' Sending payload:', payload);
+
+                const response = await fetch(ENV.API_BASE_URL + ENV.ENDPOINTS.PREDICT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                console.log(' Response status:', response.status);
+
+                if (!response.ok) {
+                    if (response.status === 429) {
+                        throw new Error('Rate limit exceeded. Please wait a moment.');
+                    }
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'HTTP error! status: ' + response.status);
+                }
+
+                return await response.json();
+            }
+
+            function displayResult(result) {
+                const statusConfig = {
+                    'Normal': { color: 'bg-emerald-500', icon: 'check_circle' },
+                    'Abnormal': { color: 'bg-rose-500', icon: 'warning' },
+                    'Inconclusive': { color: 'bg-amber-500', icon: 'help' }
+                };
+
+                const config = statusConfig[result.predicted_test_result] || statusConfig['Inconclusive'];
+                const confidence = result.confidence ? Math.round(result.confidence * 100) : null;
+
+                let html = '<div class="mt-8 p-8 bg-surface-container-lowest rounded-3xl shadow-lg border border-outline-variant/30 animate-fade-in">' +
+                    '<div class="flex items-center justify-between mb-6">' +
+                    '<div>' +
+                    '<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1 block">Prediction Result</span>' +
+                    '<h3 class="text-3xl font-headline font-bold text-on-background">' + result.predicted_test_result + '</h3>' +
+                    '</div>' +
+                    '<div class="w-16 h-16 ' + config.color + ' rounded-2xl flex items-center justify-center text-white shadow-lg">' +
+                    '<span class="material-symbols-outlined text-3xl">' + config.icon + '</span>' +
+                    '</div>' +
+                    '</div>';
+
+                if (confidence !== null) {
+                    html += '<div class="mb-6">' +
+                        '<div class="flex items-center justify-between mb-2">' +
+                        '<span class="text-sm font-semibold text-on-surface-variant">Confidence Score</span>' +
+                        '<span class="text-2xl font-headline font-bold text-primary">' + confidence + '%</span>' +
+                        '</div>' +
+                        '<div class="h-3 bg-surface-container-high rounded-full overflow-hidden">' +
+                        '<div class="h-full bg-gradient-to-r from-primary to-primary-container transition-all duration-1000 ease-out" ' +
+                        'style="width: 0%" data-width="' + confidence + '%"></div>' +
+                        '</div>' +
+                        '<div class="flex justify-between mt-2 text-xs text-on-surface-variant">' +
+                        '<span>Uncertain</span>' +
+                        '<span>Highly Certain</span>' +
+                        '</div>' +
+                        '</div>';
+                }
+
+                html += '<div class="flex items-center gap-4 text-xs text-on-surface-variant border-t border-outline-variant/20 pt-4">' +
+                    '<span class="flex items-center gap-1">' +
+                    '<span class="material-symbols-outlined text-sm">schedule</span>' +
+                    new Date(result.processed_at).toLocaleTimeString() +
+                    '</span>';
+
+                if (result.model_version) {
+                    html += '<span class="flex items-center gap-1">' +
+                        '<span class="material-symbols-outlined text-sm">model_training</span>' +
+                        result.model_version +
+                        '</span>';
+                }
+
+                html += '</div></div>';
+
+                resultContainer.innerHTML = html;
+                resultContainer.classList.remove('hidden');
+
+                // Animate confidence bar
+                setTimeout(function () {
+                    const bar = resultContainer.querySelector('[data-width]');
+                    if (bar) bar.style.width = bar.getAttribute('data-width');
+                }, 100);
+            }
+
+            function displayError(message) {
+                resultContainer.innerHTML =
+                    '<div class="mt-8 p-6 bg-error-container rounded-2xl border border-error/20 animate-fade-in">' +
+                    '<div class="flex items-center gap-3">' +
+                    '<span class="material-symbols-outlined text-error text-2xl">error</span>' +
+                    '<div>' +
+                    '<h4 class="font-headline font-bold text-on-error-container">Prediction Failed</h4>' +
+                    '<p class="text-sm text-on-error-container/80">' + message + '</p>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>';
+                resultContainer.classList.remove('hidden');
+            }
+
+            function setLoading(loading) {
+                isLoading = loading;
+                submitBtn.disabled = loading;
+
+                if (loading) {
+                    submitBtn.innerHTML =
+                        '<span class="animate-spin material-symbols-outlined">progress_activity</span>' +
+                        '<span>Processing...</span>';
+                    submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+                } else {
+                    submitBtn.innerHTML =
+                        '<span>Predict Test Result</span>' +
+                        '<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">bolt</span>';
+                    submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+                }
+            }
+
+            function hideResult() {
+                resultContainer.classList.add('hidden');
+                resultContainer.innerHTML = '';
+            }
+
+            function clearErrors() {
+                form.querySelectorAll('.ring-error').forEach(function (el) {
+                    el.classList.remove('ring-2', 'ring-error', 'bg-error-container/10');
+                });
+                form.querySelectorAll('.text-error').forEach(function (el) {
+                    el.remove();
+                });
+            }
+
+            function showFieldError(fieldName, message) {
+                const field = form.querySelector('[name="' + fieldName + '"]');
+                if (!field) return;
+
+                field.classList.add('ring-2', 'ring-error', 'bg-error-container/10');
+
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'text-xs text-error mt-1 animate-fade-in';
+                errorDiv.textContent = message;
+                field.parentNode.appendChild(errorDiv);
+            }
+        });
+    </script>
+</body>
+
+</html>
