@@ -24,15 +24,13 @@ A clean, lightweight frontend for interacting with the **Healthcare ML Predictio
 ## 📸 Screenshots
 
 ### 🏠 Dashboard
-![Dashboard](./public/screenshots/dashboard.png)
+<img width="1339" height="695" alt="2026-04-20 02 09 51" src="https://github.com/user-attachments/assets/59b79dd6-fd17-48bc-be76-cac521a31652" />
 
 ### 📝 Prediction Form
-![Form](./public/screenshots/form.png)
+<img width="989" height="542" alt="2026-04-20 02 25 26" src="https://github.com/user-attachments/assets/bc00d99c-8fef-42da-a273-f8d33c572444" />
 
 ### 🔮 Result Output
-![Result](./public/screenshots/result.png)
-
----
+<img width="1008" height="790" alt="prediction screen" src="https://github.com/user-attachments/assets/46a2e5cc-e94d-4643-9cc1-ae3ee2f518af" />
 
 ## 📊 Architecture
 
